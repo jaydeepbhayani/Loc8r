@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
 
 const dbURI = 'mongodb://localhost/Loc8r';
+if (process.env.NODE_ENV === 'production') {
+    dbURI = process.env.MONGODB_URI
+    console.log("process.env", process.env);
+}
+
 mongoose.connect(dbURI, {
-    //dbName: 'myFoodDB',
+    dbName: 'Loc8r',
     useNewUrlParser: true,
     //userUnifiedTopology: true
 });
