@@ -50,5 +50,5 @@ const locationSchema = new mongoose.Schema({
 });
 locationSchema.index({coords: '2dsphere'}); //ONLY NEEDED FOR COORDS
 
-mongoose.model('Location', locationSchema);
+mongoose.model('Location', locationSchema); //Compiled schema
 
