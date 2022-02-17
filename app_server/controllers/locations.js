@@ -139,8 +139,9 @@ const renderReviewForm = (req, res, {name}) => {
   res.render('location-review-form', { 
       title: `Review ${name} on Lc8r`,
       pageHeader: {
-          title: `Review ${name}` 
-      }
+          title: `Review ${name}`
+      },
+      errorMsg: req.query.err
   });
 };
 
@@ -163,16 +164,24 @@ const doAddReview = (req, res) => {
     method: 'POST',
     json: postData,
   };
-  request(
-    requestOptions,
-    (err, {statusCode}, body) => {
-      if (statusCode === 201) {
-        res.redirect(`/location/${locationid}`);
-      } else {
-        showError(req, res, statusCode);
+  if (!postData.author || !postData.rating || !postData.reviewText) {
+    res.redirect(`/location/${locationid}/review/new?err=val`);
+  } else {
+    request(
+      requestOptions,
+      (err, {statusCode}, {name}) => {
+        if (statusCode === 201) {
+          res.redirect(`/location/${locationid}`);
+        } else if (statusCode === 400 
+          && name && name === 'ValidationError') {
+          res.redirect(`/location/${locationid}/review/new?err=val`);
+        } else {
+          console.log(body);
+          showError(req, res, statusCode);
+        }
       }
-    }
-  );
+    );
+  }
 };
 
 module.exports = {
