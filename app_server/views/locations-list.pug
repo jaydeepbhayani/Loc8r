@@ -9,18 +9,12 @@ block content
   .row
     .col-12.col-md-8
       .error= message
-      each location in locations 
-        .card
-          .card-block
-            h4
-              a(href=`/location/${location._id}`)= location.name 
-              small &nbsp;
-                +outputRating(location.rating)
-              span.badge.badge-pill.badge-default.float-right= location.distance
-            p.address= location.address
-            .facilities 
-              each facility in location.facilities
-                span.badge.badge-warning= facility
+      app-home-list
       
     .col-12.col-md-4
       p.lead Loc8r helps you find places to work when out and about.
+
+  block scripts 
+    script(src='/build/runtime.4d5522f94f9948c4.js') 
+    script(src='/build/polyfills.fb54aaafe274e758.js')
+    script(src='/build/main.82974108306600cc.js')
