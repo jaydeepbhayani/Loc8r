@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Location } from './home-list/home-list.component';
+import { Location } from './location';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,17 @@ export class Loc8rDataService {
       .get(url)
       .toPromise()
       .then(response => response as Location[])
+      .catch(this.handleError);
+  }
+
+  public getLocationByID(locationId: string): Promise<Location> {
+    
+    const url: string = `${this.apiBaseUrl}/locations/${locationId}`;
+
+    return this.http
+      .get(url)
+      .toPromise()
+      .then(response => response as Location)
       .catch(this.handleError);
   }
 

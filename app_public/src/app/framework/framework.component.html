@@ -1,0 +1,24 @@
+<nav class="navbar fixed-top navbar-expand-md navbar-light">
+    <div class="container">
+        <a routerLink="/" class="navbar-brand">Loc8r </a>
+        <button class="navbar-toggler fas fa-bars" type="button" data-toggle="collapse" data-target="#navbarMain">
+            <span class="navbar-back"></span></button>
+        <div class="navbar-collapse collapse" id="navbarMain">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a routerLink="about" routerLinkActive="active" class="nav-link">About</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container content">
+    <router-outlet></router-outlet>
+    <footer>
+        <div class="row">
+            <div class="col-12">
+                <small>&copy; Jaydeep Bhayani 2022</small>
+            </div>
+        </div>
+    </footer>
+</div>

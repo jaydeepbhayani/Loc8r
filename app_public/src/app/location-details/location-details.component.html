@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-12 col-md-6">
+        <app-rating-stars [rating]="location.rating"></app-rating-stars>
+        <p>{{ location.address }}</p>
+        <div class="card card-primary">
+            <div class="card-block">
+                <h2 class="card-title">Opening hours</h2>
+            </div>
+        </div>
+        <div class="card card-primary">
+            <div class="card-block">
+                <h2 class="card-title">Facilities</h2>
+                <span *ngFor="let facility of location.facilities" class="badge badge-warning">
+                    <i class="fa fa-check"></i>&nbsp;{{ facility }}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 location-map">
+        <div class="card card-primary">
+            <div class="card-block">
+                <h2 class="card-title">Location map</h2><img class="img-fluid rounded"
+                    src="http://maps.googleapis.com/maps/api/staticmap?center=51.455041,-0.9690884&amp;zoom=17&amp;size=400x350&amp;sensor=false&amp;markers=51.455041,-0.9690884&amp;scale=2">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card card-primary review-card">
+            <div class="card-block"><a class="btn btn-primary float-right"
+                    href="/location/{{location._id}}/review/new">Add review</a>
+                <h2 class="card-title">Customer reviews</h2>
+                <div *ngFor="let review of location.reviews" class="row review">
+                    <div class="col-12 no-gutters review-header">
+                        <app-rating-stars [rating]="review.rating"></app-rating-stars>
+                        <span class="reviewAuthor">{{review.author}}</span>
+                        <small class="reviewTimestamp">&nbsp;{{review.createdOn}}</small>
+                    </div>
+                    <div class="col-12">
+                        <p [innerHTML]="review.reviewText | htmlLineBreaks"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
