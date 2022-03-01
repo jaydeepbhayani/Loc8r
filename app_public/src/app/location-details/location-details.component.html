@@ -1,4 +1,4 @@
-<div class="row">
+<div *ngIf="location" class="row">
     <div class="col-12 col-md-6">
         <app-rating-stars [rating]="location.rating"></app-rating-stars>
         <p>{{ location.address }}</p>
@@ -10,7 +10,7 @@
         <div class="card card-primary">
             <div class="card-block">
                 <h2 class="card-title">Facilities</h2>
-                <span *ngFor="let facility of location.facilities" class="badge badge-warning">
+                <span *ngFor="let facility of location.facilities" class="badge badge-warning facilities-list">
                     <i class="fa fa-check"></i>&nbsp;{{ facility }}
                 </span>
             </div>
@@ -28,19 +28,61 @@
 <div class="row">
     <div class="col-12">
         <div class="card card-primary review-card">
-            <div class="card-block"><a class="btn btn-primary float-right"
-                    href="/location/{{location._id}}/review/new">Add review</a>
+            <div class="card-block">
+                <button class="btn btn-primary float-right" (click)="formVisible=true">Add review</button>
                 <h2 class="card-title">Customer reviews</h2>
-                <div *ngFor="let review of location.reviews" class="row review">
-                    <div class="col-12 no-gutters review-header">
-                        <app-rating-stars [rating]="review.rating"></app-rating-stars>
-                        <span class="reviewAuthor">{{review.author}}</span>
-                        <small class="reviewTimestamp">&nbsp;{{review.createdOn}}</small>
-                    </div>
-                    <div class="col-12">
-                        <p [innerHTML]="review.reviewText | htmlLineBreaks"></p>
-                    </div>
+                <div *ngIf="formVisible">
+                    <form (ngSubmit)="onReviewSubmit()">
+                        <hr>
+                        <h4>Add your review</h4>
+                        <div *ngIf="formError" class="alert alert-danger" role="alert">
+                            {{ formError }}
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="name">Name</label>
+                            <div class="col-sm-10">
+                                <input [(ngModel)]="newReview.author" class="form-control" id="name" name="name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="rating">Rating</label>
+                            <div class="col-sm-10 col-md-2">
+                                <select [(ngModel)]="newReview.rating" class="form-control" id="rating" name="rating">
+                                    <option [ngValue]="5">5</option>
+                                    <option [ngValue]="4">4</option>
+                                    <option [ngValue]="3">3</option>
+                                    <option [ngValue]="2">2</option>
+                                    <option [ngValue]="1">1</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="review">Review</label>
+                            <div class="col-sm-10">
+                                <textarea [(ngModel)]="newReview.reviewText" class="form-control" id="review" name="review"rows="5"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary float-right" style="margin-left: 15px">Submit review</button>
+                                <button (click)="formVisible=false" type="button" class="btn btn-default float-right" >Cancel</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+
+                <ng-container *ngIf="location">
+                    <div *ngFor="let review of location.reviews" class="row review">
+                        <div class="col-12 no-gutters review-header">
+                            <app-rating-stars [rating]="review.rating"></app-rating-stars>
+                            <span class="reviewAuthor">{{review.author}}</span>
+                            <small class="reviewTimestamp">&nbsp;{{review.createdOn}}</small>
+                        </div>
+                        <div class="col-12">
+                            <p [innerHTML]="review.reviewText | htmlLineBreaks"></p>
+                        </div>
+                    </div>
+                </ng-container>
             </div>
         </div>
     </div>
